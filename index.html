@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Griffin Archive</title>
+  <style>
+    :root {
+      --text:#ecf0f6;
+      --muted:#b8c0cf;
+      --accent:#c9a55c;
+      --accent2:#88aaf8;
+      --border:rgba(255,255,255,.08);
+      --shadow:0 24px 50px rgba(0,0,0,.28);
+      --radius:22px;
+      --max:1120px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(136,170,248,.12), transparent 30%),
+        radial-gradient(circle at top right, rgba(201,165,92,.14), transparent 26%),
+        linear-gradient(180deg,#0b0d13 0%,#121722 45%,#0d1016 100%);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a { color:var(--accent2); }
+    .wrap { width:min(var(--max), 92vw); margin:0 auto; }
+    nav {
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(12px);
+      background:rgba(10,12,18,.72);
+      border-bottom:1px solid var(--border);
+    }
+    nav .wrap {
+      display:flex; justify-content:space-between; align-items:center; gap:20px;
+      padding:14px 0;
+    }
+    .brand { font-weight:700; letter-spacing:.02em; }
+    .navlinks { display:flex; flex-wrap:wrap; gap:16px; }
+    .navlinks a { color:var(--muted); text-decoration:none; font-size:.96rem; }
+    .navlinks a:hover { color:var(--text); }
+    header { border-bottom:1px solid var(--border); }
+    .hero {
+      display:grid; grid-template-columns:360px 1fr; gap:42px;
+      align-items:center; min-height:92vh; padding:64px 0;
+    }
+    .portrait {
+      width:min(100%,360px);
+      aspect-ratio:4/5;
+      object-fit:cover;
+      object-position:center 22%;
+      border-radius:28px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    .eyebrow {
+      display:inline-block;
+      color:var(--accent);
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:.78rem;
+      margin-bottom:16px;
+    }
+    h1 {
+      font-size:clamp(2.6rem,6vw,5rem);
+      line-height:1.02;
+      margin:0 0 10px;
+      letter-spacing:-.03em;
+    }
+    .tagline {
+      color:var(--muted);
+      font-size:clamp(1.08rem,2vw,1.35rem);
+      margin:0 0 22px;
+    }
+    .hero p {
+      max-width:720px;
+      font-size:1.06rem;
+      color:#dbe1ea;
+    }
+    .button-row { display:flex; flex-wrap:wrap; gap:14px; margin-top:26px; }
+    .btn {
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      text-decoration:none;
+      font-weight:600;
+      transition:.18s ease;
+    }
+    .btn:hover { transform:translateY(-1px); }
+    .btn.primary {
+      background:linear-gradient(135deg,var(--accent),#e0c27f);
+      color:#161616;
+      border-color:transparent;
+    }
+    .btn.small { padding:9px 14px; font-size:.93rem; }
+    .stats {
+      display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px;
+    }
+    .stat {
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:16px;
+    }
+    .stat strong { display:block; font-size:1.2rem; }
+    .stat span { color:var(--muted); font-size:.9rem; }
+    section { padding:72px 0; }
+    .section-title {
+      font-size:1.95rem;
+      margin:0 0 14px;
+      letter-spacing:-.02em;
+    }
+    .section-sub {
+      color:var(--muted);
+      max-width:760px;
+      margin:0 0 28px;
+    }
+    .cards3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+    .card {
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:24px;
+      box-shadow:var(--shadow);
+    }
+    .card h3, .pub-group h3, .music-group h3 { margin:0 0 12px; font-size:1.15rem; }
+    .card p, .track p, .pub p { margin:0; color:var(--muted); }
+    .split { display:grid; grid-template-columns:1.1fr .9fr; gap:22px; }
+    .focus-list { margin:10px 0 0 18px; padding:0; color:#dbe1ea; }
+    .focus-list li { margin-bottom:6px; }
+    .music-group, .pub-group {
+      margin-top:20px;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+    .music-grid, .pub-list { display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+    .track, .pub {
+      background:rgba(255,255,255,.025);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:18px;
+    }
+    .track h4, .pub h4 { margin:0 0 8px; font-size:1rem; }
+    audio { width:100%; margin-top:12px; }
+    .meta {
+      display:flex; justify-content:space-between; gap:12px;
+      color:var(--muted); font-size:.92rem; margin:0 0 10px;
+    }
+    .quick-links { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+    footer {
+      border-top:1px solid var(--border);
+      padding:28px 0 50px;
+      color:var(--muted);
+      text-align:center;
+    }
+    @media (max-width:980px) {
+      .hero, .split, .stats, .cards3, .music-grid, .pub-list { grid-template-columns:1fr; }
+      nav .wrap { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="wrap">
+      <div class="brand">Griffin Archive</div>
+      <div class="navlinks">
+        <a href="#about">About</a>
+        <a href="#fragrance">Fragrance</a>
+        <a href="#music">Music</a>
+        <a href="#research">Research</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <div class="wrap hero">
+      <div>
+        <img class="portrait" src="images/howard-griffin.jpg" alt="Howard Griffin portrait" />
+      </div>
+      <div>
+        <div class="eyebrow">Personal Archive</div>
+        <h1>Howard Griffin</h1>
+        <p class="tagline">Research • Music • Fragrance • Writing</p>
+        <p>
+          Welcome to Griffin Archive, a personal hub for my academic work, music projects, and fragrance interests.
+          My professional career has focused on international business, finance, and monetary systems, with research
+          spanning central bank independence, financial crises, global markets, gold, Bitcoin, and digital money.
+        </p>
+        <p>
+          Outside of academia, I enjoy creative work and collecting fragrance—especially vintage men’s fragrances
+          from the 1970s through the early 2000s. This site brings those worlds together in one place.
+        </p>
+        <div class="button-row">
+          <a class="btn primary" href="#research">Browse Research</a>
+          <a class="btn" href="#music">Listen to Music</a>
+          <a class="btn" href="https://www.youtube.com/@FragranceProfessor" target="_blank" rel="noopener">Fragrance Professor</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><strong>18</strong><span>article PDFs linked</span></div>
+          <div class="stat"><strong>7</strong><span>songs embedded</span></div>
+          <div class="stat"><strong>20+ yrs</strong><span>teaching & research</span></div>
+          <div class="stat"><strong>Vintage focus</strong><span>fragrance collecting</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about">
+      <div class="wrap">
+        <h2 class="section-title">About</h2>
+        <p class="section-sub">
+          This site is intentionally a blend of the professional and the personal: research publications, creative work,
+          and selected interests that reflect the broader arc of a life in teaching, writing, travel, investing, and collecting.
+        </p>
+        <div class="cards3">
+          <div class="card">
+            <h3>Academic Work</h3>
+            <p>Research centered on central banking, monetary systems, financial crises, investor behavior, global development, and international business.</p>
+          </div>
+          <div class="card">
+            <h3>Creative Work</h3>
+            <p>Original songs created with Suno, often inspired by travel, memory, relationships, and the desire to live more intentionally.</p>
+          </div>
+          <div class="card">
+            <h3>Collector Interests</h3>
+            <p>A long-running fascination with fragrance, especially character-driven vintage men’s compositions and distinctive niche work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fragrance">
+      <div class="wrap">
+        <h2 class="section-title">Fragrance</h2>
+        <p class="section-sub">
+          Fragrance is one of the most distinctive parts of this archive. Alongside academic work and music, it reflects a long-standing interest in style, memory, history, and aesthetic character.
+        </p>
+        <div class="split">
+          <div class="card">
+            <h3>Collection Style</h3>
+            <p>
+              Howard has a particular affection for vintage men’s fragrances from the 1970s through the early 2000s,
+              especially the kind that project presence, texture, and a strong point of view.
+            </p>
+            <p style="margin-top:14px;color:var(--muted);">
+              The collection leans toward bold, character-driven perfumery rather than safe minimalism: fragrances with
+              tobacco, leather, resins, incense, barbershop structure, and a strong sense of era.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Collection Focus</h3>
+            <ul class="focus-list">
+              <li>Vintage masculine fragrances (1970s–2000s)</li>
+              <li>Classic designer houses</li>
+              <li>Niche and independent perfumers</li>
+              <li>Tobacco, leather, resinous, and barbershop styles</li>
+              <li>Fragrance reviews and discussion on YouTube</li>
+            </ul>
+            <div class="quick-links">
+              <a class="btn small" href="https://www.youtube.com/@FragranceProfessor" target="_blank" rel="noopener">Visit Fragrance Professor</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="music">
+      <div class="wrap">
+        <h2 class="section-title">Music & Creative Work</h2>
+        <p class="section-sub">
+          In addition to academic research and writing, Howard Griffin also composes music inspired by travel, life experiences,
+          and reflections on independence. Many of these songs explore formative periods of life, international travel,
+          personal relationships, and the pursuit of living life on one’s own terms.
+        </p>
+
+        <section class="music-group"><h3>Travel & Life Journey</h3><div class="music-grid">
+          <article class="track"><h4>Ten Years Wide</h4><p>A reflective song about travel, memory, and the long arc of early adult life.</p><audio controls preload="none"><source src="music/ten-years-wide.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+          <article class="track"><h4>Take Me Back Tonight</h4><p>A song shaped by longing, nostalgia, and the pull of earlier chapters.</p><audio controls preload="none"><source src="music/take-me-back-tonight.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+          <article class="track"><h4>Entre o Céu e o Mar</h4><p>A Portuguese-language track inspired by Brazil, distance, and atmosphere.</p><audio controls preload="none"><source src="music/entre-o-ceu-e-o-mar.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+        </div></section>
+
+        <section class="music-group"><h3>Personal Reflections</h3><div class="music-grid">
+          <article class="track"><h4>Right Here Beside Me</h4><p>A more intimate song centered on closeness, presence, and emotional steadiness.</p><audio controls preload="none"><source src="music/right-here-beside-me.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+        </div></section>
+
+        <section class="music-group"><h3>On My Own Terms — Variations</h3><div class="music-grid">
+          <article class="track"><h4>On My Own Terms</h4><p>The original version of a song about autonomy, identity, and self-direction.</p><audio controls preload="none"><source src="music/on-my-own-terms.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+          <article class="track"><h4>On My Own Terms — Personal Version</h4><p>A more explicitly autobiographical version of the same idea.</p><audio controls preload="none"><source src="music/on-my-own-terms-personal.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+          <article class="track"><h4>On My Own Terms — FI Version</h4><p>A version shaped around financial independence and living with greater freedom.</p><audio controls preload="none"><source src="music/on-my-own-terms-fi.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></article>
+        </div></section>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="wrap">
+        <h2 class="section-title">Research & Publications</h2>
+        <p class="section-sub">
+          The research portfolio below is organized by theme and links directly to uploaded PDF copies of the papers.
+          It reflects a long-running interest in monetary systems, financial crises, market behavior, development,
+          and international business.
+        </p>
+
+        <section class="pub-group"><h3>Digital Money & Monetary Systems</h3><div class="pub-list">
+          <article class="pub"><h4>Central Banks, Gold, and Bitcoin: Redefining Money in the 21st Century</h4><p class="meta"><span>E-Journal of Business and Economic Issues</span><span>2025</span></p><p>Explores how gold and Bitcoin function as reserve assets and how central banks may adapt to a more digital monetary system.</p><p><a class="btn small" href="articles/central-banks-gold-and-bitcoin-redefining-money.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Gold, Bitcoin, and Central Banks in the 21st Century: The New Dynamic</h4><p class="meta"><span>International Journal of Finance</span><span>2025</span></p><p>Examines the evolving relationship among gold, Bitcoin, and central banking in the modern monetary era.</p><p><a class="btn small" href="articles/gold-bitcoin-and-central-banks-the-new-dynamic.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Monetary Innovation in the 21st Century: Rethinking Central Bank Reserves in the Era of Gold, Bitcoin, and Digital Currencies</h4><p class="meta"><span>International Journal of Business and Economics</span><span>2025</span></p><p>Argues for rethinking reserve structures as central banks consider gold, Bitcoin, and state-backed digital currencies.</p><p><a class="btn small" href="articles/monetary-innovation-21st-century.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Central Bank Independence: An Examination of Monetary and Economic Stability through Ordinary and Extraordinary Times</h4><p class="meta"><span>E-Journal of Business and Economic Issues</span><span>2017</span></p><p>Evaluates whether central bank independence improved inflation, interest rates, and unemployment over the long run.</p><p><a class="btn small" href="articles/central-bank-independence-ordinary-extraordinary-times.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Have Inflation and Money Supply Responded Favorably to Central Bank Independence? Evidence from Latin America</h4><p class="meta"><span>International Journal of Business and Commerce</span><span>2012</span></p><p>Investigates whether central bank autonomy improved inflation and money-supply outcomes in Latin America.</p><p><a class="btn small" href="articles/money-supply-inflation-cbi-latin-america.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Effectiveness of Central Bank Independence via its Internal Characteristics</h4><p class="meta"><span>International Journal of Banking and Finance</span><span>2011</span></p><p>Examines central bank independence through internal institutional characteristics and broader macroeconomic outcomes.</p><p><a class="btn small" href="articles/effectiveness-of-cbi.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>The External Impacts of Central Bank Independence</h4><p class="meta"><span>Revista Contabilidade &amp; Finanças</span><span>2010</span></p><p>Looks beyond inflation to assess wider macroeconomic effects of central bank independence.</p><p><a class="btn small" href="articles/external-impacts-of-central-bank-independence.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+        </div></section>
+
+        <section class="pub-group"><h3>Financial Markets & Investor Behavior</h3><div class="pub-list">
+          <article class="pub"><h4>The Impact of Government Response on the US Stock Market during the COVID-19 Pandemic</h4><p class="meta"><span>International Journal of Business and Economics</span><span>2022</span></p><p>Studies whether pandemic-era government responses measurably affected U.S. stock-market returns.</p><p><a class="btn small" href="articles/government-response-stock-market-covid.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Tesla vs. its Stock Price: “Herd Theory” at work?</h4><p class="meta"><span>E-Journal of Business and Economic Issues</span><span>2021</span></p><p>Considers whether investor optimism, Elon Musk’s influence, and herd behavior help explain Tesla’s valuation.</p><p><a class="btn small" href="articles/tesla-herd-theory.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Abnormal Returns and Stock Splits: The Decimalized vs. Fractional System of Stock Price Quotes</h4><p class="meta"><span>International Journal of Business and Management</span><span>2010</span></p><p>Compares investor response to stock splits under decimalized versus fractional pricing regimes.</p><p><a class="btn small" href="articles/abnormal-returns-stock-splits.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Liquidity and Dividend Policy: International Evidence</h4><p class="meta"><span>International Business Research</span><span>2010</span></p><p>Examines whether lower stock liquidity is associated with higher dividend payments across countries.</p><p><a class="btn small" href="articles/liquidity-and-dividend-policy.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+        </div></section>
+
+        <section class="pub-group"><h3>Financial Crises, Banking & Contagion</h3><div class="pub-list">
+          <article class="pub"><h4>The Role of Latin American Banks in the Region’s Currency Crises</h4><p class="meta"><span>Review of Economic and Business Studies</span><span>2010</span></p><p>Studies how banks contributed to the frequency and severity of currency crises in Latin America.</p><p><a class="btn small" href="articles/latin-american-banks-currency-crises.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>The Effects of Currency Crisis and Contagion on Financial Markets</h4><p class="meta"><span>International Research Journal of Finance and Economics</span><span>2010</span></p><p>Examines how currency crises and contagion affect financial markets across countries and regions.</p><p><a class="btn small" href="articles/currency-crisis-and-contagion.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+        </div></section>
+
+        <section class="pub-group"><h3>Global Development, Investment & Institutions</h3><div class="pub-list">
+          <article class="pub"><h4>Second-Hand Clothing in the Developing World: A Saving Grace or Lasting Burden?</h4><p class="meta"><span>International Research Journal of Finance and Economics</span><span>2019</span></p><p>Examines the economic and social effects of large-scale second-hand clothing flows into developing countries.</p><p><a class="btn small" href="articles/second-hand-clothing-developing-world.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>The Case of Mis-management and Lost Accreditation</h4><p class="meta"><span>International Journal of Teaching and Case Studies</span><span>2016</span></p><p>A teaching case on university governance failure, financial stress, and the loss of accreditation.</p><p><a class="btn small" href="articles/mismanagement-and-lost-accreditation.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Mega-Event Sporting Opportunities: The Case of Developed vs. Developing Countries</h4><p class="meta"><span>Journal of International Management Studies</span><span>2015</span></p><p>Analyzes when host countries benefit from mega-events such as the Olympics and World Cup—and when they do not.</p><p><a class="btn small" href="articles/mega-event-sporting-opportunities.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>A Qualitative Examination of Global Real Estate Investment Trusts (REITs)</h4><p class="meta"><span>International Journal of Economics, Commerce and Management</span><span>2014</span></p><p>Looks at whether global REIT funds truly deliver diversification benefits for U.S.-based investors.</p><p><a class="btn small" href="articles/global-reits.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+          <article class="pub"><h4>Has Mobile Phone Technology Had an Impact on the Quality of Life in the Developing World?</h4><p class="meta"><span>International Journal of Academic Research in Business and Social Sciences</span><span>2013</span></p><p>Explores whether mobile phone penetration is associated with improvements in quality of life across developing countries.</p><p><a class="btn small" href="articles/mobile-phone-technology-quality-of-life.pdf" target="_blank" rel="noopener">Read PDF</a></p></article>
+        </div></section>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <h2 class="section-title">Contact</h2>
+        <div class="split">
+          <div class="card">
+            <h3>Reach Out</h3>
+            <p>
+              Thanks for visiting. If you’d like to connect, please feel free to reach out by email or explore
+              the Fragrance Professor channel.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Links</h3>
+            <p><strong>Email</strong><br><a href="mailto:chgriffin7377@gmail.com">chgriffin7377@gmail.com</a></p>
+            <p style="margin-top:14px;"><strong>YouTube</strong><br><a href="https://www.youtube.com/@FragranceProfessor" target="_blank" rel="noopener">@FragranceProfessor</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">© 2026 Griffin Archive</div>
+  </footer>
+</body>
+</html>
